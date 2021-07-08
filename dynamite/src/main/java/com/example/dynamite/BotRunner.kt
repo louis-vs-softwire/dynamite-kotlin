@@ -8,5 +8,7 @@ object BotRunner {
         /*val results: Results = */DynamiteRunner.playGames { MyBot() }
         print("\n")
         DynamiteRunner.playGames { AttritionBot() }
+        print("\n")
+        DynamiteRunner.playGames { LeastFrequentMoveBot() }
     }
 }
