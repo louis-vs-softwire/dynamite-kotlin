@@ -1,19 +1,13 @@
 package com.example.dynamite
 
-import com.example.dynamite.helpers.RoundOutcome
 import com.example.dynamite.helpers.getCounter
-import com.example.dynamite.helpers.roundOutcome
 import com.example.dynamite.strategies.*
 import com.softwire.dynamite.bot.Bot
 import com.softwire.dynamite.game.Gamestate
 import com.softwire.dynamite.game.Move
 
-class StrategyBot : Bot {
+class MyBot : Bot {
     private var currentStrategy: Strategy = NoStrategy()
-
-    companion object : Factory<StrategyBot> {
-        override fun create(): StrategyBot = StrategyBot()
-    }
 
     init {
         println("Started new match")
@@ -36,7 +30,7 @@ class StrategyBot : Bot {
 
         when (currentStrategy) {
             // always start random - feel out the enemy
-            is NoStrategy -> currentStrategy = DynamiteFirstStrategy()
+            is NoStrategy -> currentStrategy = RandomStrategy()
             is MonoStrategy -> {
                 // if this isn't working, revert to random
                 if (analysis.totalWins(analysis.getLastXRounds(20)) < 10) {
@@ -64,7 +58,7 @@ class StrategyBot : Bot {
                 }
             }
             is DynamiteFirstStrategy -> {
-                if (analysis.myDynamiteCount() >= 100) {
+                if (analysis.myDynamiteCount() >= 99) {
                     currentStrategy = RandomStrategy()
                 }
 
