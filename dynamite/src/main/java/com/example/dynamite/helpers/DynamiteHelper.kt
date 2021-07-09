@@ -33,6 +33,7 @@ fun getCounter(move: Move) : Move {
 }
 
 fun randomMove(canUseDynamite: Boolean, theyCanUseDynamite: Boolean): Move {
+    // can't use Random.nextInt() since it causes an exception on the website
     return when (floor(Math.random() * 6.0).toInt() + 1) {
         1 -> Move.R
         2 -> Move.P
