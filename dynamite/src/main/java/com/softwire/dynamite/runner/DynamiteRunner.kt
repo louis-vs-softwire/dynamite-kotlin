@@ -5,6 +5,7 @@
 package com.softwire.dynamite.runner
 import com.example.dynamite.Factory
 import com.example.dynamite.MyBot
+import com.example.dynamite.StrategyBot
 import com.softwire.dynamite.bot.Bot
 import com.softwire.dynamite.game.Gamestate
 import com.softwire.dynamite.game.Move
@@ -12,7 +13,7 @@ import com.softwire.dynamite.game.Round
 import com.softwire.dynamite.opponents.*
 import java.util.*
 object DynamiteRunner {
-    fun playGames(playerBotFactory: Factory<MyBot>): Results {
+    fun playGames(playerBotFactory: Factory<StrategyBot>): Results {
         val opponentBots = arrayOf(
             RockBot(),
             PaperBot(),
