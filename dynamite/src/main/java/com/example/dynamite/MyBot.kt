@@ -5,6 +5,7 @@ import com.example.dynamite.strategies.*
 import com.softwire.dynamite.bot.Bot
 import com.softwire.dynamite.game.Gamestate
 import com.softwire.dynamite.game.Move
+import kotlin.math.floor
 
 class MyBot : Bot {
     private var currentStrategy: Strategy = NoStrategy()
@@ -30,7 +31,7 @@ class MyBot : Bot {
 
         when (currentStrategy) {
             // always start random - feel out the enemy
-            is NoStrategy -> currentStrategy = CounterStrategy()
+            is NoStrategy -> currentStrategy = RandomStrategy()
             is MonoStrategy -> {
                 // if this isn't working, revert to random
                 if (analysis.totalWins(analysis.getLastXRounds(20)) < 10) {
@@ -43,6 +44,11 @@ class MyBot : Bot {
                 // use mono strategy to counter mono bots
                 if (theirRecentMostFrequentMoveFrequency > 4) {
                     currentStrategy = MonoStrategy(getCounter(theirRecentMostFrequentMove))
+                }
+
+                val pattern = detectPattern(analysis)
+                if (pattern !is NoStrategy) {
+                    currentStrategy = pattern
                 }
 
                 // boost
@@ -69,8 +75,30 @@ class MyBot : Bot {
                     currentStrategy = MonoStrategy(getCounter(theirRecentMostFrequentMove))
                 }
             }
+            is AntiPatternStrategy -> {
+                // if this isn't working, revert to random
+                if (analysis.totalWins(analysis.getLastXRounds(5)) < 3) {
+                    currentStrategy = RandomStrategy()
+                }
+            }
         }
     }
 
+    /**
+     * Detect if a bot is using a linear(ish) regular pattern of dynamite (every X rounds, x < 20)
+     */
+    private fun detectPattern(analysis: GameAnalysis) : Strategy {
+        for (i in 1..20) {
+            var j = 0
+            var consistency = 0
+            val maxConsistency = floor(analysis.rounds.count().toDouble() / i.toDouble())
+            while (j < analysis.rounds.count()) {
+                if (analysis.rounds[j].p2 == Move.D) consistency++
+                j += i
+            }
+            if (consistency.toDouble() / maxConsistency > 0.7) AntiPatternStrategy(i)
+        }
+        return NoStrategy()
+    }
 
 }
