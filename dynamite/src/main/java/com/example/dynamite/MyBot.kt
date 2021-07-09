@@ -30,7 +30,7 @@ class MyBot : Bot {
 
         when (currentStrategy) {
             // always start random - feel out the enemy
-            is NoStrategy -> currentStrategy = RandomStrategy()
+            is NoStrategy -> currentStrategy = CounterStrategy()
             is MonoStrategy -> {
                 // if this isn't working, revert to random
                 if (analysis.totalWins(analysis.getLastXRounds(20)) < 10) {
@@ -62,6 +62,12 @@ class MyBot : Bot {
                     currentStrategy = RandomStrategy()
                 }
 
+            }
+            is CounterStrategy -> {
+                // use mono strategy to counter mono bots
+                if (theirRecentMostFrequentMoveFrequency > 5) {
+                    currentStrategy = MonoStrategy(getCounter(theirRecentMostFrequentMove))
+                }
             }
         }
     }
