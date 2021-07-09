@@ -84,8 +84,8 @@ class GameAnalysis(gamestate: Gamestate) {
     /**
      * Get the last move of the opponent
      */
-    fun theirLastMove() : Move {
-        return rounds.last().p2
+    fun theirLastMove() : Move? {
+        return rounds.lastOrNull()?.p2
     }
 
     fun lastRound() : Round? {
