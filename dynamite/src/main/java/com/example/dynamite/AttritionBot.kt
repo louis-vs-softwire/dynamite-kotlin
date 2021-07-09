@@ -14,8 +14,9 @@ class AttritionBot : Bot {
     override fun makeMove(gamestate: Gamestate): Move {
         // Are you debugging?
         // Put a breakpoint in this method to see when we make a move
+        val analysis = GameAnalysis(gamestate)
         return when {
-            gamestate.rounds.size <= 100 -> Move.W
+            analysis.theirDynamiteCount()<= 100 -> Move.W
             gamestate.rounds.size <= 200 -> Move.D
             else -> randomMove()
         }

@@ -5,10 +5,9 @@ import com.softwire.dynamite.runner.*
 object BotRunner {
     @JvmStatic
     fun main(args: Array<String>) {
-        /*val results: Results = */DynamiteRunner.playGames { MyBot() }
-        print("\n")
-        DynamiteRunner.playGames { AttritionBot() }
-        print("\n")
-        DynamiteRunner.playGames { LeastFrequentMoveBot() }
+        val results = (1..10).map { DynamiteRunner.playGames { StrategyBot() } }
+        val avgWins = results.map { x -> x.results.sumBy { (it.result == "WIN").compareTo(false) } }.average()
+        val avgLosses = results.map { x -> x.results.sumBy { (it.result == "LOSE").compareTo(false) } }.average()
+        print("\nAverage Wins: $avgWins\nAverage Losses: $avgLosses\n")
     }
 }
