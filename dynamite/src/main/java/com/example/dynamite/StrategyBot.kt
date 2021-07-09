@@ -11,6 +11,10 @@ import com.softwire.dynamite.game.Move
 class StrategyBot : Bot {
     private var currentStrategy: Strategy = NoStrategy()
 
+    companion object : Factory<StrategyBot> {
+        override fun create(): StrategyBot = StrategyBot()
+    }
+
     init {
         println("Started new match")
     }
