@@ -5,8 +5,7 @@ import com.softwire.dynamite.runner.*
 object BotRunner {
 //    @JvmStatic
 //    fun main(args: Array<String>) {
-//        val f: Factory<StrategyBot> = StrategyBot
-//        val results = (1..10).map { DynamiteRunner.playGames(f) }
+//        val results = (1..10).map { DynamiteRunner.playGames { MyBot() } }
 //        val avgWins = results.map { x -> x.results.sumBy { (it.result == "WIN").compareTo(false) } }.average()
 //        val avgLosses = results.map { x -> x.results.sumBy { (it.result == "LOSE").compareTo(false) } }.average()
 //        print("\nAverage Wins: $avgWins\nAverage Losses: $avgLosses\n")
@@ -15,6 +14,6 @@ object BotRunner {
     // for uploading to website
     @JvmStatic
     fun main(args: Array<String>) {
-        val results: Results = DynamiteRunner.playGames {MyBot()}
+        val results: Results = DynamiteRunner.playGames { MyBot() }
     }
 }
